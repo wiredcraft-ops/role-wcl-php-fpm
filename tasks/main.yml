@@ -38,12 +38,14 @@
   tags: [configuration,php,fpm]
 
 - name: Copy default FPM configuration file
-  template: dest={{ php_fpm_config_path }} src=php-fpm.conf.j2
+  template: 
+    dest={{ php_fpm_config_path }} 
+    src=php-fpm.conf.j2
   when: ansible_os_family == "RedHat"
   tags: [configuration,php,fpm]
 
 - name: Copy the FPM configuration
-  ini_file: >
+  ini_file: 
     dest={{ php_fpm_config_path }}
     section="{{ item.section }}"
     option="{{ item.option }}"
@@ -56,7 +58,7 @@
   tags: [configuration,php,fpm]
 
 - name: Delete the include line from the ini file
-  ini_file: >
+  ini_file: 
     dest={{ php_fpm_config_path }}
     section=global
     option=include
@@ -67,8 +69,8 @@
    - restart php-fpm
   tags: [configuration,php,fpm]
 
-- name: Readd the include line to the ini file
-  ini_file: >
+- name: Read the include line to the ini file
+  ini_file: 
     dest={{ php_fpm_config_path }}
     section=global
     option=include
@@ -81,14 +83,14 @@
   tags: [configuration,php,fpm]
 
 - name: Delete the default POOL configuration file
-  file: >
+  file: 
     path={{ php_fpm_pool_d }}/{{ php_fpm_default_pool.name }}
     state=absent
   when: php_fpm_default_pool.delete
   tags: [configuration,php,fpm]
 
 - name: Copy the POOL configurations
-  template: >
+  template: 
     src=pool.conf.j2
     dest={{ php_fpm_pool_d }}/{{ item['name'] }}.conf
     backup=yes
@@ -105,5 +107,8 @@
   tags: [configuration,php,fpm]
 
 - name: Start the php5-fpm service
-  service: name={{ php_fpm_service_name }} state=started enabled=yes
+  service: 
+    name={{ php_fpm_service_name }} 
+    state=started 
+    enabled=yes
   tags: [service,php,fpm]
