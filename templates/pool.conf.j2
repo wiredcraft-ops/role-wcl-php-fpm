@@ -9,11 +9,11 @@
 
 ; Pool custom directives
 {% for directive, value in item.iteritems() if directive != "name" %}
-  {% if directive == 'env' %}
-    {% for env_var, value in value.iteritems() %}
-      ENV[{{ env_var }}] = {{ value }}
+  {% if directive == 'env' -%}
+    {% for env_var, value in value.iteritems() -%}
+      env[{{ env_var }}] = {{ value }}
     {% endfor %}
-  {%- else %}
+  {% else %}
   {{ directive }} = {{ value }}
   {% endif %}
 {% endfor %}
